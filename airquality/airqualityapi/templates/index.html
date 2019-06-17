@@ -1,9 +1,60 @@
 <html>
 <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 </head>
 <body>
-    <canvas id="airquality-chart"></canvas>
+    <br />
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <div class="input-group date" id="start-datetime-picker" data-target-input="nearest">
+                        <input type="text" class="form-control datetimepicker-input" data-target="#start-datetime-picker">
+                        <div class="input-group-append" data-target="#start-datetime-picker" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <div class="input-group date" id="end-datetime-picker" data-target-input="nearest">
+                        <input type="text" class="form-control datetimepicker-input" data-target="#end-datetime-picker">
+                        <div class="input-group-append" data-target="#end-datetime-picker" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <select id="interval-select" class="custom-select">
+                        <option value="day">Day</option>
+                        <option value="hour" selected>Hour</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <button id="refresh-btn" class="btn btn-primary">Refresh</button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group"></div>
+    </div>
+    <div class="row">
+        <div class="offset-sm-1 col-sm-10">
+            <canvas id="airquality-chart"></canvas>
+        </div>
+    </div>
     <script>
 	function getData(start, end, interval) {
 	    var xhr = new XMLHttpRequest();
@@ -34,13 +85,13 @@
                         labels: timestamps,
                         datasets: [{
                             label: 'PM 2.5',
-                            backgroundColor: 'rgb(255, 99, 132)',
-                            borderColor: 'rgb(255, 99, 132)',
+                            backgroundColor: 'rgb(99, 255, 132)',
+                            borderColor: 'rgb(69, 225, 102)',
                             data: pm25_data
                         },{
                             label: 'PM 10',
                             backgroundColor: 'rgb(132, 99, 255)',
-                            borderColor: 'rgb(132, 99, 255)',
+                            borderColor: 'rgb(102, 69, 225)',
                             data: pm10_data
                         }]
                     },
@@ -52,7 +103,26 @@
         }
         xhr.send()
 	}
-    getData('2019-01-01T00:00:00Z', '2020-01-01T00:00:00Z', 'hour');
+    $('#refresh-btn').click(function () {
+        getData(
+            $('#start-datetime-picker').datetimepicker('date').toISOString(),
+            $('#end-datetime-picker').datetimepicker('date').toISOString(),
+            $('#interval-select').val());
+    });
+    $(function () {
+        $('#start-datetime-picker').datetimepicker({
+            defaultDate: moment().add(-1, 'days'),
+            sideBySide: true
+        });
+        $('#end-datetime-picker').datetimepicker({
+            defaultDate: moment(),
+            sideBySide: true
+        });
+        getData(
+            $('#start-datetime-picker').datetimepicker('date').toISOString(),
+            $('#end-datetime-picker').datetimepicker('date').toISOString(),
+            $('#interval-select').val());
+    });
     </script>
 </body>
 </html>
