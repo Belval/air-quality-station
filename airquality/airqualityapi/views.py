@@ -2,16 +2,23 @@ import datetime
 import json
 
 from dateutil import parser
-from django.core import serializers
-from django.db.models import Q
-from django.http import JsonResponse
+from django.core.serializers.json import DjangoJSONEncoder
+from django.db.models import Avg, Q
+from django.db.models.functions import TruncDay, TruncHour
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
+from django.template import loader
 
 from airqualityapi.models import Measurement
+
+def index(request):
+    template = loader.get_template('index.html')
+    return HttpResponse(template.render({}, request))
 
 def measurements(request):
     start = request.GET.get('start', None)
     end = request.GET.get('end', None)
+    interval = request.GET.get('interval', 'minute')
 
     if start is not None:
         start = parser.parse(start)
@@ -23,12 +30,23 @@ def measurements(request):
     if end is None:
         end = datetime.datetime.now()
 
-    serialized = serializers.serialize(
-        "python",
-        Measurement.objects.filter(Q(timestamp__gte=start, timestamp__lte=end)),
-        fields=['timestamp', 'pm25', 'pm10'],
-    )
-    return JsonResponse([m['fields'] for m in serialized], safe=False)
+    measurements = Measurement.objects.filter(Q(timestamp__gte=start, timestamp__lte=end))
+    if interval == 'hour':
+        measurements = measurements.annotate(datetime=TruncHour('timestamp')
+                                   ).values('datetime'
+                                   ).annotate(pm25=Avg('pm25')
+                                   ).annotate(pm10=Avg('pm10')
+                                   ).values('datetime', 'pm25', 'pm10')
+    elif interval == 'day':
+        measurements = measurements.annotate(datetime=TruncDay('timestamp')
+                                   ).values('datetime'
+                                   ).annotate(pm25=Avg('pm25')
+                                   ).annotate(pm10=Avg('pm10')
+                                   ).values('datetime', 'pm25', 'pm10')
+    else:
+        measurements = measurements.values('timestamp', 'pm25', 'pm10')
+
+    return JsonResponse(list(measurements), encoder=DjangoJSONEncoder, safe=False)
 
 def ping(request):
     return JsonResponse({"ping": "pong"})

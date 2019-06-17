@@ -1,0 +1,58 @@
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+</head>
+<body>
+    <canvas id="airquality-chart"></canvas>
+    <script>
+	function getData(start, end, interval) {
+	    var xhr = new XMLHttpRequest();
+	    xhr.open('GET', `/api/v1/measurements/?start=${start}&end=${end}&interval=${interval}`)
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+	            data = JSON.parse(xhr.responseText);
+                console.log(data);
+                timestamps = [];
+                pm25_data = [];
+                pm10_data = [];
+                for (const data_point of data) {
+                    if (interval == 'hour') {
+                        timestamps.push(new Date(data_point['datetime']).toLocaleString("en-CA"));
+                    } else {
+                        timestamps.push(new Date(data_point['datetime']).toLocaleDateString("en-CA"));
+                    }
+                    pm25_data.push(parseFloat(data_point['pm25']));
+                    pm10_data.push(parseFloat(data_point['pm10']));
+                }
+                console.log(timestamps);
+                console.log(pm25_data);
+                console.log(pm10_data);
+                var ctx = document.getElementById('airquality-chart').getContext('2d');
+                var chart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: timestamps,
+                        datasets: [{
+                            label: 'PM 2.5',
+                            backgroundColor: 'rgb(255, 99, 132)',
+                            borderColor: 'rgb(255, 99, 132)',
+                            data: pm25_data
+                        },{
+                            label: 'PM 10',
+                            backgroundColor: 'rgb(132, 99, 255)',
+                            borderColor: 'rgb(132, 99, 255)',
+                            data: pm10_data
+                        }]
+                    },
+                    options: {}
+                });
+            } else {
+                alert('Failed to retrieve data.')
+            }
+        }
+        xhr.send()
+	}
+    getData('2019-01-01T00:00:00Z', '2020-01-01T00:00:00Z', 'hour');
+    </script>
+</body>
+</html>

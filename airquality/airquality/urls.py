@@ -15,11 +15,13 @@ Including another URLconf
 """
 from django.urls import path
 from airqualityapi.views import (
+    index,
     measurements,
     ping
 )
 
 urlpatterns = [
+    path('', index),
     path('api/v1/measurements/', measurements),
     path('api/v1/ping/', ping),
 ]
