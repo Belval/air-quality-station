@@ -3,7 +3,7 @@ import json
 
 from dateutil import parser
 from django.core.serializers.json import DjangoJSONEncoder
-from django.db.models import Avg, Q
+from django.db.models import Avg, F, Q
 from django.db.models.functions import TruncDay, TruncHour
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
@@ -44,7 +44,7 @@ def measurements(request):
                                    ).annotate(pm10=Avg('pm10')
                                    ).values('datetime', 'pm25', 'pm10')
     else:
-        measurements = measurements.values('timestamp', 'pm25', 'pm10')
+        measurements = measurements.annotate(datetime=F('timestamp')).values('datetime', 'pm25', 'pm10')
 
     return JsonResponse(list(measurements), encoder=DjangoJSONEncoder, safe=False)
 

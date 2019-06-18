@@ -39,6 +39,7 @@
                     <select id="interval-select" class="custom-select">
                         <option value="day">Day</option>
                         <option value="hour" selected>Hour</option>
+                        <option value="minute">Minute</option>
                     </select>
                 </div>
             </div>
@@ -62,22 +63,18 @@
         xhr.onload = function() {
             if (xhr.status === 200) {
 	            data = JSON.parse(xhr.responseText);
-                console.log(data);
                 timestamps = [];
                 pm25_data = [];
                 pm10_data = [];
                 for (const data_point of data) {
-                    if (interval == 'hour') {
-                        timestamps.push(new Date(data_point['datetime']).toLocaleString("en-CA"));
-                    } else {
+                    if (interval == 'day') {
                         timestamps.push(new Date(data_point['datetime']).toLocaleDateString("en-CA"));
+                    } else {
+                        timestamps.push(new Date(data_point['datetime']).toLocaleString("en-CA"));
                     }
                     pm25_data.push(parseFloat(data_point['pm25']));
                     pm10_data.push(parseFloat(data_point['pm10']));
                 }
-                console.log(timestamps);
-                console.log(pm25_data);
-                console.log(pm10_data);
                 var ctx = document.getElementById('airquality-chart').getContext('2d');
                 var chart = new Chart(ctx, {
                     type: 'line',
