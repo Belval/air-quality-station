@@ -5,7 +5,7 @@ Combining the SNS011 sensor with an OrangePI to display PM2.5 and PM10 air quali
 
 The basic chart UI allows for easy reading of the air quality data for a given interval.
 
-![ui](ui.png)
+![ui](images/ui.png)
 
 ## Hardware
 
@@ -14,6 +14,12 @@ The basic chart UI allows for easy reading of the air quality data for a given i
     - Any RasPi-like system would do
 - Power adapter
 - 4GB+ microSD card
+
+## Case
+
+There is a 3D printable case model for the SNS011 available in the `case/` directory.
+
+![case](images/case.png)
 
 ## Future enhancement
 
