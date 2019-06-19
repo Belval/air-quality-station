@@ -3,7 +3,7 @@ Combining the SNS011 sensor with an OrangePI to display PM2.5 and PM10 air quali
 
 ## UI
 
-The basic chart UI allows for easy reading of the air quality date for a given interval.
+The basic chart UI allows for easy reading of the air quality data for a given interval.
 
 ![ui](ui.png)
 
