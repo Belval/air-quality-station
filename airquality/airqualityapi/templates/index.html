@@ -56,8 +56,20 @@
             <canvas id="airquality-chart"></canvas>
         </div>
     </div>
+    <div class="row">
+        <div class="offset-sm-1 col-sm-10">
+            <canvas id="temperature-humidity-chart"></canvas>
+        </div>
+    </div>
+    <div class="row">
+        <div class="offset-sm-1 col-sm-10">
+            <canvas id="eco2-tvoc-chart"></canvas>
+        </div>
+    </div>
     <script>
     let chart = null;
+    let chart2 = null;
+    let chart3 = null;
 	function getData(start, end, interval) {
 	    var xhr = new XMLHttpRequest();
 	    xhr.open('GET', `/api/v1/measurements/?start=${start}&end=${end}&interval=${interval}`)
@@ -67,6 +79,10 @@
                 const timestamps = [];
                 const pm25_data = [];
                 const pm10_data = [];
+                const co2_data = [];
+                const tvoc_data = [];
+                const temp_data = [];
+                const humidity_data = [];
                 for (const data_point of data) {
                     if (interval == 'day') {
                         timestamps.push(new Date(data_point['datetime']).toLocaleDateString("en-CA"));
@@ -75,7 +91,12 @@
                     }
                     pm25_data.push(parseFloat(data_point['pm25']));
                     pm10_data.push(parseFloat(data_point['pm10']));
+                    co2_data.push(parseFloat(data_point['co2']));
+                    tvoc_data.push(parseFloat(data_point['tvoc']));
+                    temp_data.push(parseFloat(data_point['temperature']));
+                    humidity_data.push(parseFloat(data_point['humidity']));
                 }
+                // Air Quality Chart
                 const ctx = document.getElementById('airquality-chart').getContext('2d');
                 if (chart !== null) {
                     chart.destroy();
@@ -97,6 +118,84 @@
                         }]
                     },
                     options: {}
+                });
+                // Temperature/Humidity Chart
+                const ctx2 = document.getElementById('temperature-humidity-chart').getContext('2d');
+                if (chart2 !== null) {
+                    chart2.destroy();
+                }
+                chart2 = new Chart(ctx2, {
+                    type: 'line',
+                    data: {
+                        labels: timestamps,
+                        datasets: [{
+                            label: 'Temperature',
+                            yAxisID: 'T',
+                            borderColor: 'rgb(244, 67, 54)',
+                            data: temp_data
+                        },{
+                            label: 'Humidity',
+                            yAxisID: 'H',
+                            borderColor: 'rgb(33, 150, 243)',
+                            data: humidity_data
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                id: 'T',
+                                type: 'linear',
+                                position: 'left',
+                                ticks: {
+                                    max: 40,
+                                    min: 10
+                                }
+                            }, {
+                                id: 'H',
+                                type: 'linear',
+                                position: 'right',
+                                ticks: {
+                                    max: 100,
+                                    min: 0,
+                                }
+                            }]
+                        }
+                    }
+                });
+                // CO2/TVOC Chart
+                const ctx3 = document.getElementById('eco2-tvoc-chart').getContext('2d');
+                if (chart3 !== null) {
+                    chart3.destroy();
+                }
+                chart3 = new Chart(ctx3, {
+                    type: 'line',
+                    data: {
+                        labels: timestamps,
+                        datasets: [{
+                            label: 'eCO2',
+                            yAxisID: 'C',
+                            borderColor: 'rgb(255, 87, 34)',
+                            data: co2_data
+                        },{
+                            label: 'TVOC',
+                            yAxisID: 'T',
+                            borderColor: 'rgb(0, 150, 136)',
+                            data: tvoc_data
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                id: 'C',
+                                type: 'linear',
+                                position: 'left',
+                            }, {
+                                id: 'T',
+                                type: 'linear',
+                                position: 'right',
+                            }]
+                        }
+                    }
                 });
             } else {
                 alert('Failed to retrieve data.')
