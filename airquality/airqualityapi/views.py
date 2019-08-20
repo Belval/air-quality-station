@@ -36,15 +36,39 @@ def measurements(request):
                                    ).values('datetime'
                                    ).annotate(pm25=Avg('pm25')
                                    ).annotate(pm10=Avg('pm10')
-                                   ).values('datetime', 'pm25', 'pm10')
+                                   ).annotate(co2=Avg('co2')
+                                   ).annotate(tvoc=Avg('tvoc')
+                                   ).annotate(temperature=Avg('temperature')
+                                   ).annotate(humidity=Avg('humidity')
+                                   ).values(
+                                        'datetime',
+                                        'pm25',
+                                        'pm10',
+                                        'co2',
+                                        'tvoc',
+                                        'temperature',
+                                        'humidity')
     elif interval == 'day':
         measurements = measurements.annotate(datetime=TruncDay('timestamp')
                                    ).values('datetime'
                                    ).annotate(pm25=Avg('pm25')
                                    ).annotate(pm10=Avg('pm10')
-                                   ).values('datetime', 'pm25', 'pm10')
+                                   ).annotate(co2=Avg('co2')
+                                   ).annotate(tvoc=Avg('tvoc')
+                                   ).annotate(temperature=Avg('temperature')
+                                   ).annotate(humidity=Avg('humidity')
+                                   ).values(
+                                        'datetime',
+                                        'pm25',
+                                        'pm10',
+                                        'co2',
+                                        'tvoc',
+                                        'temperature',
+                                        'humidity')
     else:
-        measurements = measurements.annotate(datetime=F('timestamp')).values('datetime', 'pm25', 'pm10')
+        measurements = measurements.annotate(datetime=F('timestamp')
+                ).values('datetime', 'pm25', 'pm10', 'co2', 'tvoc', 'temperature', 'humidity')
+
 
     return JsonResponse(list(measurements), encoder=DjangoJSONEncoder, safe=False)
 
