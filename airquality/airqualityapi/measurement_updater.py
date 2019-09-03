@@ -2,6 +2,7 @@ import array
 import serial
 import struct
 import time
+from datetime import datetime
 from threading import Thread
 from Adafruit_CCS811 import Adafruit_CCS811
 from airqualityapi.dht22 import DHT22
@@ -78,10 +79,7 @@ def update_measurement():
                     last_humidity_reading
                 ))
             # We save every minute
-            print(time.time() - last_save)
-            if time.time() - last_save >= 20:
-                print('Saving data')
-                print(accumulator)
+            if time.time() - last_save >= 30:
                 avg_pm25, avg_pm10, avg_co2, avg_tvoc, avg_temp, avg_hum = [
                     sum(ml) / len(ml)
                     for ml in list(zip(*accumulator))
@@ -94,9 +92,10 @@ def update_measurement():
                     temperature = avg_temp,
                     humidity = avg_hum
                 )
+                data = [sum(ml) / len(ml) for ml in list(zip(*accumulator))]
+                print(f"[{datetime.now()}] - PM25: {data[0]:.1f} | PM10: {data[1]:.1f} | CO2: {data[2]:.1f} | TVOC: {data[3]:.1f} | Temp: {data[4]:.1f} | Hum.: {data[5]:.1f}")
                 last_save = time.time()
                 accumulator = []
-            print('Successful read')
         except Exception as ex:
             print(ex)
         time.sleep(1)
