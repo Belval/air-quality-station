@@ -4,7 +4,7 @@ from pyA20.gpio import port
 
 
 class DHT22Result:
-    'DHT22 sensor result returned by DHT22.read() method'
+    "DHT22 sensor result returned by DHT22.read() method"
 
     ERR_NO_ERROR = 0
     ERR_MISSING_DATA = 1
@@ -24,7 +24,7 @@ class DHT22Result:
 
 
 class DHT22:
-    'DHT22 sensor reader class for Raspberry'
+    "DHT22 sensor reader class for Raspberry"
 
     __pin = 0
 
@@ -41,10 +41,9 @@ class DHT22:
         self.__send_and_sleep(gpio.LOW, 0.02)
 
         # change to input using pull up
-        #gpio.setcfg(self.__pin, gpio.INPUT, gpio.PULLUP)
+        # gpio.setcfg(self.__pin, gpio.INPUT, gpio.PULLUP)
         gpio.setcfg(self.__pin, gpio.INPUT)
         gpio.pullup(self.__pin, gpio.PULLUP)
-
 
         # collect data into an array
         data = self.__collect_input()
@@ -68,9 +67,11 @@ class DHT22:
             return DHT22Result(DHT22Result.ERR_CRC, 0, 0)
 
         # ok, we have valid data, return it
-        return DHT22Result(DHT22Result.ERR_NO_ERROR, 
-                (((the_bytes[2] & 0x7F)<<8)+the_bytes[3])/10.00, ((the_bytes[0]<<8)+the_bytes[1])/10.00)
-
+        return DHT22Result(
+            DHT22Result.ERR_NO_ERROR,
+            (((the_bytes[2] & 0x7F) << 8) + the_bytes[3]) / 10.00,
+            ((the_bytes[0] << 8) + the_bytes[1]) / 10.00,
+        )
 
     def __send_and_sleep(self, output, sleep):
         gpio.output(self.__pin, output)
@@ -107,8 +108,8 @@ class DHT22:
 
         state = STATE_INIT_PULL_DOWN
 
-        lengths = [] # will contain the lengths of data pull up periods
-        current_length = 0 # will contain the length of the previous period
+        lengths = []  # will contain the lengths of data pull up periods
+        current_length = 0  # will contain the length of the previous period
 
         for i in range(len(data)):
 
@@ -185,11 +186,11 @@ class DHT22:
 
         for i in range(0, len(bits)):
             byte = byte << 1
-            if (bits[i]):
+            if bits[i]:
                 byte = byte | 1
             else:
                 byte = byte | 0
-            if ((i + 1) % 8 == 0):
+            if (i + 1) % 8 == 0:
                 the_bytes.append(byte)
                 byte = 0
 

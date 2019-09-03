@@ -7,21 +7,28 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Measurement',
+            name="Measurement",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('timestamp', models.DateTimeField(auto_now=True)),
-                ('pm25', models.DecimalField(decimal_places=4, max_digits=16)),
-                ('pm10', models.DecimalField(decimal_places=4, max_digits=16)),
-                ('co2', models.IntegerField()),
-                ('tvoc', models.IntegerField()),
-                ('temperature', models.DecimalField(decimal_places=2, max_digits=8)),
-                ('humidity', models.DecimalField(decimal_places=2, max_digits=8)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("timestamp", models.DateTimeField(auto_now=True)),
+                ("pm25", models.DecimalField(decimal_places=4, max_digits=16)),
+                ("pm10", models.DecimalField(decimal_places=4, max_digits=16)),
+                ("co2", models.IntegerField()),
+                ("tvoc", models.IntegerField()),
+                ("temperature", models.DecimalField(decimal_places=2, max_digits=8)),
+                ("humidity", models.DecimalField(decimal_places=2, max_digits=8)),
             ],
-        ),
+        )
     ]
