@@ -89,12 +89,12 @@
                     } else {
                         timestamps.push(new Date(data_point['datetime']).toLocaleString("en-CA"));
                     }
-                    pm25_data.push(parseFloat(data_point['pm25']));
-                    pm10_data.push(parseFloat(data_point['pm10']));
-                    co2_data.push(parseFloat(data_point['co2']));
-                    tvoc_data.push(parseFloat(data_point['tvoc']));
-                    temp_data.push(parseFloat(data_point['temperature']));
-                    humidity_data.push(parseFloat(data_point['humidity']));
+                    pm25_data.push(Number(parseFloat(data_point['pm25']).toFixed(2)));
+                    pm10_data.push(Number(parseFloat(data_point['pm10']).toFixed(2)));
+                    co2_data.push(Number(parseFloat(data_point['co2']).toFixed(2)));
+                    tvoc_data.push(Number(parseFloat(data_point['tvoc']).toFixed(2)));
+                    temp_data.push(Number(parseFloat(data_point['temperature']).toFixed(2)));
+                    humidity_data.push(Number(parseFloat(data_point['humidity']).toFixed(2)));
                 }
                 // Air Quality Chart
                 const ctx = document.getElementById('airquality-chart').getContext('2d');
