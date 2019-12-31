@@ -79,8 +79,6 @@
                 const timestamps = [];
                 const pm25_data = [];
                 const pm10_data = [];
-                const co2_data = [];
-                const tvoc_data = [];
                 const temp_data = [];
                 const humidity_data = [];
                 for (const data_point of data) {
@@ -91,8 +89,6 @@
                     }
                     pm25_data.push(Number(parseFloat(data_point['pm25']).toFixed(2)));
                     pm10_data.push(Number(parseFloat(data_point['pm10']).toFixed(2)));
-                    co2_data.push(Number(parseFloat(data_point['co2']).toFixed(2)));
-                    tvoc_data.push(Number(parseFloat(data_point['tvoc']).toFixed(2)));
                     temp_data.push(Number(parseFloat(data_point['temperature']).toFixed(2)));
                     humidity_data.push(Number(parseFloat(data_point['humidity']).toFixed(2)));
                 }
@@ -158,41 +154,6 @@
                                     max: 100,
                                     min: 0,
                                 }
-                            }]
-                        }
-                    }
-                });
-                // CO2/TVOC Chart
-                const ctx3 = document.getElementById('eco2-tvoc-chart').getContext('2d');
-                if (chart3 !== null) {
-                    chart3.destroy();
-                }
-                chart3 = new Chart(ctx3, {
-                    type: 'line',
-                    data: {
-                        labels: timestamps,
-                        datasets: [{
-                            label: 'eCO2',
-                            yAxisID: 'C',
-                            borderColor: 'rgb(255, 87, 34)',
-                            data: co2_data
-                        },{
-                            label: 'TVOC',
-                            yAxisID: 'T',
-                            borderColor: 'rgb(0, 150, 136)',
-                            data: tvoc_data
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            yAxes: [{
-                                id: 'C',
-                                type: 'linear',
-                                position: 'left',
-                            }, {
-                                id: 'T',
-                                type: 'linear',
-                                position: 'right',
                             }]
                         }
                     }

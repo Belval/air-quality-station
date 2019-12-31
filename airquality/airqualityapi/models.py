@@ -8,10 +8,6 @@ class Measurement(models.Model):
     pm25 = models.DecimalField(decimal_places=4, max_digits=16)
     # PM10 concentration in micro grams per cubic meter
     pm10 = models.DecimalField(decimal_places=4, max_digits=16)
-    # CO2 concentration in ppm
-    co2 = models.IntegerField()
-    # TVOC concentration in ppb
-    tvoc = models.IntegerField()
     # Temperature in celsius
     temperature = models.DecimalField(decimal_places=2, max_digits=8)
     # Relative humidity in %
