@@ -2,6 +2,7 @@ import array
 import serial
 import struct
 import time
+import os
 from datetime import datetime
 from threading import Thread
 from airqualityapi.dht22 import DHT22
@@ -82,10 +83,11 @@ def update_measurement():
                 last_save = time.time()
                 accumulator = []
         except Exception as ex:
-            print(ex)
+            pass
         time.sleep(1)
 
 
 def start():
     thread = Thread(target=update_measurement)
     thread.start()
+

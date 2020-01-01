@@ -1,0 +1,11 @@
+[Unit]
+Description=An air-quality-station service!
+After=network.target
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart=/usr/bin/python3 manage.py runserver 0.0.0.0:80 --noreload --insecure
+WorkingDirectory=/home/edouard/air-quality-station/airquality
+[Install]
+WantedBy=multi-user.target
