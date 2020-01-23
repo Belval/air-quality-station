@@ -41,6 +41,7 @@ def measurements(request):
             .values("datetime")
             .annotate(pm25=Avg("pm25"))
             .annotate(pm10=Avg("pm10"))
+            .annotate(co2=Avg("co2"))
             .annotate(temperature=Avg("temperature"))
             .annotate(humidity=Avg("humidity"))
             .values(
@@ -53,15 +54,16 @@ def measurements(request):
             .values("datetime")
             .annotate(pm25=Avg("pm25"))
             .annotate(pm10=Avg("pm10"))
+            .annotate(co2=Avg("co2"))
             .annotate(temperature=Avg("temperature"))
             .annotate(humidity=Avg("humidity"))
             .values(
-                "datetime", "pm25", "pm10", "temperature", "humidity"
+                "datetime", "pm25", "pm10", "co2", "temperature", "humidity"
             )
         )
     else:
         measurements = measurements.annotate(datetime=F("timestamp")).values(
-            "datetime", "pm25", "pm10", "temperature", "humidity"
+            "datetime", "pm25", "pm10", "co2", "temperature", "humidity"
         )
 
     return JsonResponse(list(measurements), encoder=DjangoJSONEncoder, safe=False)

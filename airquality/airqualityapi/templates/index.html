@@ -53,18 +53,18 @@
         <div class="form-group"></div>
     </div>
     <div class="row">
-        <div class="offset-sm-1 col-sm-10">
+        <div class="offset-sm-1 col-sm-10 offset-lg-3 col-lg-6">
             <canvas id="airquality-chart"></canvas>
         </div>
     </div>
     <div class="row">
-        <div class="offset-sm-1 col-sm-10">
+        <div class="offset-sm-1 col-sm-10 offset-lg-3 col-lg-6">
             <canvas id="temperature-humidity-chart"></canvas>
         </div>
     </div>
     <div class="row">
-        <div class="offset-sm-1 col-sm-10">
-            <canvas id="eco2-tvoc-chart"></canvas>
+        <div class="offset-sm-1 col-sm-10 offset-lg-3 col-lg-6">
+            <canvas id="co2-chart"></canvas>
         </div>
     </div>
     <script>
@@ -80,6 +80,7 @@
                 const timestamps = [];
                 const pm25_data = [];
                 const pm10_data = [];
+                const co2_data = [];
                 const temp_data = [];
                 const humidity_data = [];
                 for (const data_point of data) {
@@ -90,6 +91,7 @@
                     }
                     pm25_data.push(Number(parseFloat(data_point['pm25']).toFixed(2)));
                     pm10_data.push(Number(parseFloat(data_point['pm10']).toFixed(2)));
+                    co2_data.push(Number(parseFloat(data_point['co2']).toFixed(2)));
                     temp_data.push(Number(parseFloat(data_point['temperature']).toFixed(2)));
                     humidity_data.push(Number(parseFloat(data_point['humidity']).toFixed(2)));
                 }
@@ -159,6 +161,32 @@
                         }
                     }
                 });
+
+                // Air Quality Chart
+                const ctx3 = document.getElementById('co2-chart').getContext('2d');
+                if (chart3 !== null) {
+                    chart3.destroy();
+                }
+                chart3 = new Chart(ctx3, {
+                    type: 'line',
+                    data: {
+                        labels: timestamps,
+                        datasets: [{
+                            label: 'CO2',
+                            borderColor: 'rgb(255, 87, 34)',
+                            data: co2_data
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+		    }
+		});
             } else {
                 alert('Failed to retrieve data.')
             }
