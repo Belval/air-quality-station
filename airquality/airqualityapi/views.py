@@ -45,7 +45,7 @@ def measurements(request):
             .annotate(temperature=Avg("temperature"))
             .annotate(humidity=Avg("humidity"))
             .values(
-                "datetime", "pm25", "pm10", "temperature", "humidity"
+                "datetime", "pm25", "pm10", "co2", "temperature", "humidity"
             )
         )
     elif interval == "day":
