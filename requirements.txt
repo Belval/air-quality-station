@@ -1,5 +1,5 @@
 aniso8601==6.0.0
-Django==2.2.2
+Django==2.2.10
 future==0.18.2
 iotop==0.6
 iso8601==0.1.12
