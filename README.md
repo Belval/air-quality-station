@@ -12,9 +12,10 @@ The basic chart UI allows for easy reading of the air quality data for a given i
 
 ## Hardware
 
-- [SNS011 air quality sensor](https://www.aliexpress.com/item/Laser-PM2-5-sensor-SDS011-particle-sensor-dust-sensor/32724933436.html?spm=a2g0s.9042311.0.0.ca304c4dQQAiml)
+- [SNS011 air quality sensor](https://www.aliexpress.com/item/Laser-PM2-5-sensor-SDS011-particle-sensor-dust-sensor/32724933436.html)
 - [DHT22 temperature and humidity sensor](https://www.amazon.ca/gp/product/B06Y63YMSS/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1) (Bought from Amazon for the fast shipping, is much cheaper on AliExpress)
-- [Orange Pi Zero H2](https://www.aliexpress.com/item/New-Orange-Pi-Zero-H2-Quad-Core-Open-source-512MB-development-board-beyond-Raspberry-Pi/32761500374.html?spm=a2g0s.9042311.0.0.27424c4d73P8NR)
+- [MH-Z19 CO2 sensor](https://www.aliexpress.com/item/32708354059.html)
+- [Orange Pi Zero H2](https://www.aliexpress.com/item/New-Orange-Pi-Zero-H2-Quad-Core-Open-source-512MB-development-board-beyond-Raspberry-Pi/32761500374.html)
     - Any RasPi-like system would do
 - Power adapter
 - 4GB+ microSD card
