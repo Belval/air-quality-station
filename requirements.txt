@@ -1,8 +1,15 @@
 aniso8601==6.0.0
-Django==2.2.2
+APScheduler==3.6.0
+certifi==2019.11.28
+chardet==3.0.4
+command-not-found==0.3
+Django==2.2.10
 future==0.18.2
+getrpimodel==0.1.15
+idna==2.8
 iotop==0.6
 iso8601==0.1.12
+mh-z19==0.4.1
 pyA20==0.2.1
 pygobject==3.26.1
 pyserial==3.4
@@ -10,6 +17,9 @@ python-apt==1.6.4
 python-dateutil==2.8.0
 pytz==2019.3
 PyYAML==5.2
+requests==2.22.0
 six==1.13.0
 sqlparse==0.3.0
 tzlocal==2.0.0
+unattended-upgrades==0.1
+urllib3==1.25.8
